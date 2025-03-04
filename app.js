@@ -24,6 +24,8 @@ const globalErrorHandler = require('./controllers/errorController');
 */
 const app = express();
 
+app.enable('trust-proxy');
+
 // Setting up template engine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
