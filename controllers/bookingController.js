@@ -27,7 +27,10 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
           product_data: {
             name: `${tour.name} Tour`,
             description: tour.summary,
-            images: [`https://www.natours.dev/img/tours/${tour.imageCover}`],
+            // images: [`https://www.natours.dev/img/tours/${tour.imageCover}`],
+            images: [
+              `${req.protocol}://${req.get('host')}/img/tours/${tour.imageCover}`,
+            ],
           },
         },
       },
@@ -81,7 +84,7 @@ exports.webhookCheckout = (req, res, next) => {
     res.status(400).send(`Stripe Webhook Error: ${err.message}`);
   }
 
-  if (event.type === 'checkout.session.complete') {
+  if (event.type === 'checkout.session.completed') {
     console.log('Event Object', event);
     console.log('Event Data Object', event.data.object);
     createBookingCheckout(event.data.object);
