@@ -17,6 +17,7 @@ const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
+const bookingController = require('./controllers/bookingController');
 
 /* 
     - This calls the Express function, which creates an instance of an Express application.
@@ -95,6 +96,16 @@ app.use('/api', limiter);
   res.send('Hello World');
   //   res.status(200).json({ message: 'Hello from the server' });
 }); */
+
+/* NOTE
+  We are doing this request here instead of the bookingRouter because we need the req data in raw form instead of json. 
+  So we need to do this request before we use the express.json() middleware otherwise the req data would be converted to json
+*/
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout,
+);
 
 /* 
   - It is a built-in middleware in express. The primary function of express.json() is to parse requests with a Content-Type header of application/json. Once parsed, the resulting data is stored in the req.body, allowing easy access to the JSON content sent from the client.
