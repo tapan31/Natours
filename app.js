@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -31,6 +32,18 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // GLOBAL MIDDLEWARES
+
+// Implement CORS
+app.use(cors());
+
+// Allow request only from a specific origin
+/* app.use(cors({
+  origin: 'https://example.com'
+})) */
+
+// Pre flight phase, options request
+app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors());
 
 // Built-in middleware to serve static files (html, css, js, images etc.) from a folder
 app.use(express.static(path.join(__dirname, 'public')));
