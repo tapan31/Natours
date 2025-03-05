@@ -24,7 +24,7 @@ html
             meta(charset="UTF-8")
             meta(name="viewport" content="width=device-width, initial-scale=1.0")
             title Natours | #{title}
-    body 
+    body(data-alert=`${alert ? alert: ''}`) 
         // HEADER
         include _header
             
